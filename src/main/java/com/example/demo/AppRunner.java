@@ -2,6 +2,7 @@ package com.example.demo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -11,6 +12,14 @@ import org.springframework.stereotype.Component;
 public class AppRunner implements ApplicationRunner {
 
     final static Logger logger = LoggerFactory.getLogger(AppRunner.class);
+
+    @Autowired
+    BeingLazy beingLazy;
+
+    public void doProxyTest() {
+        beingLazy.beLazy();
+        beingLazy.playAround();
+    }
 
     @Value("#{1}")
     Integer i;
@@ -42,10 +51,7 @@ public class AppRunner implements ApplicationRunner {
     @Value("#{sample.data}")
     Integer sampleData;
 
-
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
-
+    public void doSpringExpressionLanguageTest() {
         System.out.println(i);
         System.out.println(iminus);
         System.out.println(b);
@@ -58,5 +64,11 @@ public class AppRunner implements ApplicationRunner {
         System.out.println(myvalue);
         System.out.println(myValueEq);
         System.out.println(sampleData);
+    }
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        doProxyTest();
+        doSpringExpressionLanguageTest();
     }
 }
