@@ -16,11 +16,6 @@ public class DemoController {
     Validator validator;
     DemoService service;
 
-    @InitBinder
-    public void init(WebDataBinder webDataBinder) {
-        webDataBinder.registerCustomEditor(Demo.class, new DemoPropertyEditor());
-    }
-
     public DemoController(DemoService service) {
         this.service = service;
     }
