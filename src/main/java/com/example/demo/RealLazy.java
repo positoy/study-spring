@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RealLazy {
 
+    @PerfLogging
     public void beLazy() {
         System.out.println("Actually doing nothing...");
         try {
@@ -14,6 +15,7 @@ public class RealLazy {
         }
     }
 
+    @PerfLogging
     public void playAround() {
         System.out.println("Playing around...");
         try {

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class AspectPerf {
 
-    @Around("execution(* com.example.demo.RealLazy.*())")
+    @Around("@annotation(PerfLogging)")
     public Object perfLogger(ProceedingJoinPoint pjp) throws Throwable{
         long begin = System.currentTimeMillis();
         Object ret = pjp.proceed();
