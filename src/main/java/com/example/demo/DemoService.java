@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -62,12 +63,17 @@ public class DemoService {
     // DELETE
     public Demo deleteDemo(int id) {
         Demo d = null;
-        try {
-            d = repository.demos.get(id).clone();
-        } catch (CloneNotSupportedException e) {
-            System.out.println(e.getMessage());
+        for (int i=0; i<repository.demos.size(); i++) {
+            if (repository.demos.get(i).getId() == id) {
+                try {
+                    d = repository.demos.get(i).clone();
+                    repository.demos.remove(i);
+                    return d;
+                } catch (CloneNotSupportedException e) {
+                    LoggerFactory.getLogger(DemoService.class).info(e.getMessage());
+                }
+            }
         }
-        repository.demos.remove(id);
         return d;
     }
 }

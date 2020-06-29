@@ -61,9 +61,10 @@ public class DemoController {
         return service.updateDemo(demo.getId(), bodyDemo);
     }
 
-    //D (delete)
+    //DELETE (delete)
     @DeleteMapping("/api/demo/{demo}")
     public Demo deleteDemo(@PathVariable Demo demo) {
+        LoggerFactory.getLogger(DemoController.class).info("DELETE /api/demo/" + demo.getId());
         return service.deleteDemo(demo.getId());
     }
 
