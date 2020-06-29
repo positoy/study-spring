@@ -1,14 +1,18 @@
 package com.example.demo;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
 @RestController
 public class DemoController {
+    @Autowired
+    Validator validator;
     DemoService service;
 
     public DemoController(DemoService service) {
@@ -19,11 +23,9 @@ public class DemoController {
     @PostMapping("/api/demo")
     public Demo postDemo(@RequestBody Demo demo) {
         LoggerFactory.getLogger(DemoController.class).info("/api/demo, " + "{data=" +demo.getData()+",id="+demo.getId()+"}");
-
-
-        DemoValidator demoValidator = new DemoValidator();
+        LoggerFactory.getLogger(DemoController.class).info(validator.getClass().toString());
         Errors errors = new BeanPropertyBindingResult(demo, "demo");
-        demoValidator.validate(demo, errors);
+        validator.validate(demo, errors);
         if (errors.hasErrors()) {
             errors.getAllErrors().forEach(e -> {
                 LoggerFactory.getLogger(DemoController.class).info(e.getCode() + " : " + e.getDefaultMessage());

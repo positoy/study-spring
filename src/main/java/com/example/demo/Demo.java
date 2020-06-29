@@ -1,7 +1,11 @@
 package com.example.demo;
 
+import javax.validation.constraints.*;
+
 public class Demo implements Cloneable {
+    @Min(0)
     int id;
+    @NotEmpty
     String data;
 
     public Demo(int id, String data) {
