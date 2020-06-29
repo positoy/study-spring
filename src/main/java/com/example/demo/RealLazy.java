@@ -3,9 +3,8 @@ package com.example.demo;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RealLazy implements BeingLazy {
+public class RealLazy {
 
-    @Override
     public void beLazy() {
         System.out.println("Actually doing nothing...");
         try {
@@ -15,7 +14,6 @@ public class RealLazy implements BeingLazy {
         }
     }
 
-    @Override
     public void playAround() {
         System.out.println("Playing around...");
         try {

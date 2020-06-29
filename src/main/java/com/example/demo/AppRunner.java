@@ -14,11 +14,11 @@ public class AppRunner implements ApplicationRunner {
     final static Logger logger = LoggerFactory.getLogger(AppRunner.class);
 
     @Autowired
-    BeingLazy beingLazy;
+    RealLazy realLazy;
 
     public void doProxyTest() {
-        beingLazy.beLazy();
-        beingLazy.playAround();
+        realLazy.beLazy();
+        realLazy.playAround();
     }
 
     @Value("#{1}")
