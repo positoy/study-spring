@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -14,6 +15,11 @@ public class DemoController {
     @Autowired
     Validator validator;
     DemoService service;
+
+    @InitBinder
+    public void init(WebDataBinder webDataBinder) {
+        webDataBinder.registerCustomEditor(Demo.class, new DemoPropertyEditor());
+    }
 
     public DemoController(DemoService service) {
         this.service = service;
@@ -43,25 +49,22 @@ public class DemoController {
         return data.isEmpty() ? service.getAll() : service.getDemoWithData(data);
     }
 
-    @GetMapping("/api/demo/{id}")
-    public Demo getDemo(
-            @PathVariable("id") int id) {
-        LoggerFactory.getLogger(DemoController.class).info("/api/demo/" + id);
-        return service.getDemo(id);
+    @GetMapping("/api/demo/{demo}")
+    public Demo getDemo(@PathVariable Demo demo) {
+        LoggerFactory.getLogger(DemoController.class).info(demo.toString());
+        return service.getDemo(demo.getId());
     }
 
     //UPDATE (put)
-    @PutMapping("/api/demo/{id}")
-    public Demo putDemo(
-            @PathVariable("id") int id,
-            @RequestBody Demo demo) {
-        return service.updateDemo(id, demo);
+    @PutMapping("/api/demo/{demo}")
+    public Demo putDemo(@PathVariable Demo demo, @RequestBody Demo bodyDemo) {
+        return service.updateDemo(demo.getId(), bodyDemo);
     }
 
     //D (delete)
-    @DeleteMapping("/api/demo/{id}")
-    public Demo deleteDemo(@PathVariable("id")int id) {
-        return service.deleteDemo(id);
+    @DeleteMapping("/api/demo/{demo}")
+    public Demo deleteDemo(@PathVariable Demo demo) {
+        return service.deleteDemo(demo.getId());
     }
 
 }

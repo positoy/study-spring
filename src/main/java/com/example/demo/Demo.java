@@ -8,6 +8,10 @@ public class Demo implements Cloneable {
     @NotEmpty
     String data;
 
+    public Demo(@Min(0) int id) {
+        this.id = id;
+    }
+
     public Demo(int id, String data) {
         this.id = id;
         this.data = data;
