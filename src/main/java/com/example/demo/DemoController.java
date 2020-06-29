@@ -1,6 +1,8 @@
 package com.example.demo;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -17,6 +19,17 @@ public class DemoController {
     @PostMapping("/api/demo")
     public Demo postDemo(@RequestBody Demo demo) {
         LoggerFactory.getLogger(DemoController.class).info("/api/demo, " + "{data=" +demo.getData()+",id="+demo.getId()+"}");
+
+
+        DemoValidator demoValidator = new DemoValidator();
+        Errors errors = new BeanPropertyBindingResult(demo, "demo");
+        demoValidator.validate(demo, errors);
+        if (errors.hasErrors()) {
+            errors.getAllErrors().forEach(e -> {
+                LoggerFactory.getLogger(DemoController.class).info(e.getCode() + " : " + e.getDefaultMessage());
+            });
+            return null;
+        }
         return service.addDemo(demo);
     }
 
