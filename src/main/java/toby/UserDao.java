@@ -9,10 +9,13 @@ public class UserDao {
     final static String dbUser = "root";
     final static String dbPassword = "1234";
 
-    public void add(User user) throws ClassNotFoundException, SQLException {
+    Connection getConnection() throws ClassNotFoundException, SQLException {
         Class.forName(dbClass);
         Connection c = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-
+        return c;
+    }
+    public void add(User user) throws ClassNotFoundException, SQLException {
+        Connection c = getConnection();
         PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?,?,?)");
         ps.setString(1, user.getId());
         ps.setString(2, user.getName());
@@ -26,9 +29,7 @@ public class UserDao {
 
 
     public void delete(String id) throws ClassNotFoundException, SQLException {
-        Class.forName(dbClass);
-        Connection c = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-
+        Connection c = getConnection();
         PreparedStatement ps = c.prepareStatement("delete from users where id=?");
         ps.setString(1, id);
         ps.execute();
@@ -38,9 +39,7 @@ public class UserDao {
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
-        Class.forName(dbClass);
-        Connection c = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-
+        Connection c = getConnection();
         PreparedStatement ps = c.prepareStatement("select * from users where id=?");
         ps.setString(1, id);
 
