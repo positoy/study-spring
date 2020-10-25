@@ -2,18 +2,15 @@ package toby;
 
 import java.sql.*;
 
-public class UserDao {
+public abstract class UserDao {
 
     final static String dbClass = "com.mysql.cj.jdbc.Driver";
     final static String dbUrl = "jdbc:mysql://localhost/toby?serverTimezone=UTC&characterEncoding=UTF-8";
     final static String dbUser = "root";
     final static String dbPassword = "1234";
 
-    Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName(dbClass);
-        Connection c = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-        return c;
-    }
+    abstract Connection getConnection() throws ClassNotFoundException, SQLException;
+
     public void add(User user) throws ClassNotFoundException, SQLException {
         Connection c = getConnection();
         PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?,?,?)");

@@ -2,6 +2,8 @@ package toby;
 
 import org.junit.jupiter.api.Test;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,7 +30,7 @@ class UserDaoTest {
         user.setName("andy");
         user.setPassword("10laskrcjs");
 
-        UserDao userDao = new UserDao();
+        UserDao userDao = new JdbcUserDao();
         userDao.delete("positoy");
         userDao.add(user);
         User storedUser = userDao.get("positoy");
