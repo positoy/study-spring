@@ -2,17 +2,16 @@ package toby;
 
 import java.sql.*;
 
-public abstract class UserDao {
+public class UserDao {
 
-    final static String dbClass = "com.mysql.cj.jdbc.Driver";
-    final static String dbUrl = "jdbc:mysql://localhost/toby?serverTimezone=UTC&characterEncoding=UTF-8";
-    final static String dbUser = "root";
-    final static String dbPassword = "1234";
+    SimpleConnectionMaker simpleConnectionMaker;
 
-    abstract Connection getConnection() throws ClassNotFoundException, SQLException;
+    UserDao() {
+        simpleConnectionMaker = new SimpleConnectionMaker();
+    }
 
     public void add(User user) throws ClassNotFoundException, SQLException {
-        Connection c = getConnection();
+        Connection c = simpleConnectionMaker.makeNewConnection();
         PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?,?,?)");
         ps.setString(1, user.getId());
         ps.setString(2, user.getName());
@@ -26,7 +25,7 @@ public abstract class UserDao {
 
 
     public void delete(String id) throws ClassNotFoundException, SQLException {
-        Connection c = getConnection();
+        Connection c = simpleConnectionMaker.makeNewConnection();
         PreparedStatement ps = c.prepareStatement("delete from users where id=?");
         ps.setString(1, id);
         ps.execute();
@@ -36,7 +35,7 @@ public abstract class UserDao {
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
-        Connection c = getConnection();
+        Connection c = simpleConnectionMaker.makeNewConnection();
         PreparedStatement ps = c.prepareStatement("select * from users where id=?");
         ps.setString(1, id);
 
