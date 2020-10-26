@@ -30,7 +30,7 @@ class UserDaoTest {
         user.setName("andy");
         user.setPassword("10laskrcjs");
 
-        UserDao userDao = new UserDao(new JdbcConnectionMaker());
+        UserDao userDao = new DaoFactory().userDao();
         userDao.delete("positoy");
         userDao.add(user);
         User storedUser = userDao.get("positoy");
